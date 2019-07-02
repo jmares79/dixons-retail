@@ -16,4 +16,3 @@ devices.
 A tracking system is needed for tracking which are the more successful items that people buy/fetches,
 so that have to be saved too, in a text file for now, but open to new devices in the future.
 
-

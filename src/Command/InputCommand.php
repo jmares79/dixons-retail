@@ -13,8 +13,8 @@ use App\Exceptions\InvalidInputException;
 
 class InputCommand extends Command
 {
-	// the name of the command (the part after "bin/console")
     protected static $defaultName = 'app:product-data';
+    const ERROR_OUTPUT = 'Invalid Id';
 
     /**
      * Service in charge of managing everything related to products
@@ -23,7 +23,7 @@ class InputCommand extends Command
 
     public function __construct(ProductService $product)
     {
-        $this->calculatorManager = $calculator;
+        $this->product = $product;
         // $this->validator = $validator;
 
         parent::__construct();
@@ -37,15 +37,14 @@ class InputCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $bottles = $input->getArgument('bottles');
-        $heights = explode(",", $input->getArgument('heights'));
+        $productId = $input->getArgument('id');
 
-        if (!$this->validator->isValidInput($bottles, $heights)) {
-            $bottlesThrown = self::DEFAULT_OUTPUT;
-        } else {
-            $bottlesThrown = $this->calculatorManager->calculate($heights);
-        }
+        $description = $this->product->detail($productId);
+        // if (!$this->validator->isValidInput($productId)) {
+        //     $description = self::ERROR_OUTPUT;
+        // } else {
+        // }
 
-        $output->writeln($bottlesThrown);
+        $output->writeln($description);
     }
 }
