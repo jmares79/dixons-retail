@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Commands;
+namespace App\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -8,23 +8,26 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use App\Services\ProductService;
-use App\Exceptions\InvalidInputArguments;
-use App\Exceptions\InvalidInputException;
+use Symfony\Component\Dotenv\Dotenv;
 
 class InputCommand extends Command
 {
     protected static $defaultName = 'app:product-data';
-    const ERROR_OUTPUT = 'Invalid Id';
+    const CONFIGURATION_ERROR = 'Invalid data models set. Please add a valid configuration.';
 
     /**
      * Service in charge of managing everything related to products
      */
-    private $product;
+    protected $product;
+
+    protected $dotenv;
 
     public function __construct(ProductService $product)
     {
+        $this->dotenv = new Dotenv();
         $this->product = $product;
-        // $this->validator = $validator;
+        
+        $this->dotenv->load(__DIR__.'/../../.env');
 
         parent::__construct();
     }
@@ -39,12 +42,12 @@ class InputCommand extends Command
     {
         $productId = $input->getArgument('id');
 
-        $description = $this->product->detail($productId);
-        // if (!$this->validator->isValidInput($productId)) {
-        //     $description = self::ERROR_OUTPUT;
-        // } else {
-        // }
+        if (!isset($_ENV['MODEL_DEFAULT']) || !isset($_ENV['MODEL_FALLBACK'])) {
+            $detail = self::CONFIGURATION_ERROR;
+        } else {
+            $detail = $this->product->detail($productId);
+        }
 
-        $output->writeln($description);
+        $output->writeln($detail);
     }
 }
