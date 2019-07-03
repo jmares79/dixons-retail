@@ -21,6 +21,7 @@ class MySQLSearchService implements CommonSearchDriver
      */
 	protected function findProduct($id)
 	{
+		//TODO simulates a SELECT * FROM
 		return [
             'type' => 'MySQL',
             'id' => $id,
