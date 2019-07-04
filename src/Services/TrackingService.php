@@ -101,4 +101,22 @@ class TrackingService
 
         return $rows;
     }
+
+    /**
+     * Gets all the trackings from the data model
+     *
+     * @return array Trackings loaded
+     */
+    public function getById($id)
+    {
+        $row = null;
+
+        while ($row = $this->reader->getFileRow()) {
+            if ($id == $row[0]) { 
+                return $row; 
+            }
+        }
+
+        return $row;
+    }
 }
