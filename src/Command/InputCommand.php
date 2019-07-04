@@ -43,11 +43,13 @@ class InputCommand extends Command
         $productId = $input->getArgument('id');
 
         if (!isset($_ENV['MODEL_DEFAULT']) || !isset($_ENV['MODEL_FALLBACK'])) {
-            $detail = self::CONFIGURATION_ERROR;
+            $details = self::CONFIGURATION_ERROR;
         } else {
-            $detail = $this->product->detail($productId);
+            $details = $this->product->detail($productId);
+            $trackings = $this->product->getProductsTracking($productId);
         }
 
-        $output->writeln($detail);
+        $output->writeln($details);
+        $output->writeln($trackings);
     }
 }

@@ -11,10 +11,13 @@ class ElasticSearchService implements CommonSearchDriver
      */
     public function findById($id)
     {
+        //TODO simulates a GET product/<id>
         return [
-            'type' => 'ElasticSearch',
-            'id' => $id,
-            'product' => 'fakeProduct'
+            '_source' => [
+                'type' => 'ElasticSearch',
+                'id' => $id,
+                'product' => 'fakeProduct'
+            ]
         ];
     }
 }

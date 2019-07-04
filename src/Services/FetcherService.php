@@ -12,10 +12,13 @@ class FetcherService implements FetcherInterface
      */
     protected $repository;
 
+    /**
+     * @var array Cache simulation
+     */
+    static protected $cache = [];
+
     public function __construct()
     {
-       
-
         $this->repository = $this->getEnabledModel();
     }
 
