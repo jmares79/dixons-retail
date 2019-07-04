@@ -35,9 +35,14 @@ That part of the logic was done in [FetcherService](https://github.com/jmares79/
 
 As this was done with a simple if-else, is not meant for deploying in a production environment, as a proper _ConfigurationService_ has to be created (Ommited here for time constraints) which fully parses the configuration file/repository and logs any potential issue and returns an error if anything could be malfunctioning.
 
-2. The company uses a cache system, which has to be used before the physical data model, for efficiancy purposes.
+2. The company uses a cache system, which has to be used before the physical data model, for efficiency purposes.
 
-3. Also a tracking system is needed. In order of tracking which are the more successful items that people buy/fetches, so that have to be saved too (In a text file for now), but open to new devices in the future.
+This was mocked under a CacheService and its Interface. For time constraints, it was set with dummy return values for its methods.
+
+3. A tracking system is needed. In order of tracking which are the more successful items that people buy/fetches, so that have to be saved too (In a text file for now), but open to new devices in the future.
+
+A _TrackingService_ was created, which saves the data into a text file. It has a _File_ service for it, which could be easily replaced when another more complex method is required.
+
 
 ## Installation steps
 
@@ -52,13 +57,11 @@ PHP is required to be installed.
 
 So, in order to execute them should be for example: `php bin/console app:product-data 4` (Id could be a full string)
 
-## Important notes:
+## Tests
+
+Unit tests were done for the 3 services, to execute them type:
+
+`bin/phpunit` or `bin/phpunit --filter <name-of-test>` for an individual test.
 
 
-
-
-
-
-The problem:
-
-As the task is forcing me to implement 2 different interfaces, instead of a better idea of only one, with a common signature like "findById($id)" in all the interfaces (That would be an improvement to make the code easier), I added an extra layer in the shape of a _RepositoryService_, which will be the one in charge of reading the data access and, if ElasticSearch is not working, then seek MySQL data model.
+Any bug found please open an issue in github and I'll check it!
