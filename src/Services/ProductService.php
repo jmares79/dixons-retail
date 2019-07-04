@@ -8,11 +8,17 @@ class ProductService
 {
     protected $fetcher;
     protected $tracking;
+    protected $cache;
 
-    public function __construct(FetcherInterface $fetcher, TrackingService $tracking)
+    public function __construct(
+        FetcherInterface $fetcher, 
+        TrackingService $tracking,
+        CacheInterface $cache
+    )
     {
         $this->fetcher = $fetcher;
         $this->tracking = $tracking;
+        $this->cache = $cache;
     }
     
     /**
@@ -23,8 +29,12 @@ class ProductService
      */
     public function detail($id)
     {
-        //TODO Add to a queue for async processing, to avoid bottlenecks
         $this->tracking->track($id);
+        
+        //TODO Add to a queue for async processing, to avoid bottlenecks
+        if ($cache->hasItem($id)) {
+            return $cache->getItem($id);
+        }
 
         return $this->fetcher->fetch($id);
     }
