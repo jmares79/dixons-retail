@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Interfaces\FetcherInterface;
+use App\Interfaces\CacheInterface;
 
 class ProductService
 {
@@ -32,8 +33,8 @@ class ProductService
         $this->tracking->track($id);
         
         //TODO Add to a queue for async processing, to avoid bottlenecks
-        if ($cache->hasItem($id)) {
-            return $cache->getItem($id);
+        if ($this->cache->hasItem($id)) {
+            return $this->cache->getItem($id);
         }
 
         return $this->fetcher->fetch($id);

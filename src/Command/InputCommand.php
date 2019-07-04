@@ -50,6 +50,5 @@ class InputCommand extends Command
         }
 
         $output->writeln($details);
-        $output->writeln($trackings);
     }
 }
